@@ -1,0 +1,64 @@
+2026-11-14 12:09 EST
+== npm ci
+
+Run `npm audit` for details.
+== lint
+> eslint .
+
+== typecheck
+> tsc -b
+
+typecheck OK
+== unit/component
+ ✓ src/audio/audio.test.ts (13 tests) 10ms
+ ✓ src/analysis/analysis.test.ts (12 tests) 157ms
+ ✓ src/test/app.test.tsx (11 tests) 453ms
+ Test Files  3 passed (3)
+      Tests  36 passed (36)
+== build
+dist/index.html                   1.19 kB │ gzip:  0.63 kB
+dist/assets/index-Cl2ooxlv.css   14.10 kB │ gzip:  4.15 kB
+dist/assets/index-B3hDYBps.js   288.65 kB │ gzip: 91.22 kB
+✓ built in 522ms
+== browser tests (local production preview)
+  ✓  1 e2e/demo.spec.ts:3:1 › demo deck has exactly seven slides, all images load, no console errors (548ms)
+  ✓  2 e2e/smoke.spec.ts:17:1 › first visit: loads, ready state, no console errors (560ms)
+AXE default theme: 29 rules passed, 0 violations, 2 need review
+  ✓  3 e2e/a11y.spec.ts:9:3 › axe: no WCAG A/AA violations (default theme) (1.1s)
+AXE high contrast: 29 rules passed, 0 violations, 2 need review
+  ✓  5 e2e/a11y.spec.ts:9:3 › axe: no WCAG A/AA violations (high contrast) (921ms)
+  ✓  4 e2e/smoke.spec.ts:26:1 › play with sound, NASA frames drive features, pause/seek/resume/stop leave no errors (8.9s)
+PARITY t=30s browser=0.0010 offline=0.0007 | t=60s browser=0.0020 offline=0.0013 | t=95s browser=0.0160 offline=0.0133 | t=110s browser=0.0070 offline=0.0060 | t=145s browser=0.0190 offline=0.0165 | t=160s browser=0.0260 offline=0.0239 | t=205s browser=0.0270 offline=0.0228
+  ✓  6 e2e/smoke.spec.ts:58:1 › browser analysis matches the offline FFmpeg profile at sample times (3.5s)
+  ✓  7 e2e/smoke.spec.ts:81:1 › keyboard: skip link first, controls reachable (274ms)
+  ✓  8 e2e/smoke.spec.ts:98:3 › no horizontal overflow at mobile 360x800 (323ms)
+  ✓  9 e2e/smoke.spec.ts:98:3 › no horizontal overflow at tablet 768x1024 (242ms)
+  ✓  10 e2e/smoke.spec.ts:98:3 › no horizontal overflow at desktop 1440x900 (325ms)
+  ✓  11 e2e/smoke.spec.ts:107:1 › 200% zoom equivalent (720px CSS width) keeps controls usable (332ms)
+  ✓  12 e2e/smoke.spec.ts:115:1 › reduced-motion system preference is honored (209ms)
+  ✓  13 e2e/smoke.spec.ts:125:1 › video failure shows a readable error with recovery (359ms)
+  ✓  14 e2e/smoke.spec.ts:132:1 › slow network: loading state then ready (3.1s)
+AUDIO quiet median=0.0062 max=0.0065 | busy median=0.0360 max=0.0493
+  ✓  15 e2e/smoke.spec.ts:142:1 › audio output follows the NASA frames: near-silent without lightning, louder in dense activity (10.7s)
+  15 passed (45.7s)
+== browser tests (public deployment)
+  ✓  1 e2e/demo.spec.ts:3:1 › demo deck has exactly seven slides, all images load, no console errors (635ms)
+  ✓  2 e2e/smoke.spec.ts:17:1 › first visit: loads, ready state, no console errors (1.0s)
+AXE default theme: 29 rules passed, 0 violations, 2 need review
+  ✓  3 e2e/a11y.spec.ts:9:3 › axe: no WCAG A/AA violations (default theme) (1.5s)
+AXE high contrast: 29 rules passed, 0 violations, 2 need review
+  ✓  5 e2e/a11y.spec.ts:9:3 › axe: no WCAG A/AA violations (high contrast) (1.1s)
+  ✓  4 e2e/smoke.spec.ts:26:1 › play with sound, NASA frames drive features, pause/seek/resume/stop leave no errors (9.0s)
+PARITY t=30s browser=0.0010 offline=0.0007 | t=60s browser=0.0020 offline=0.0013 | t=95s browser=0.0160 offline=0.0133 | t=110s browser=0.0070 offline=0.0060 | t=145s browser=0.0190 offline=0.0165 | t=160s browser=0.0260 offline=0.0239 | t=205s browser=0.0270 offline=0.0228
+  ✓  6 e2e/smoke.spec.ts:58:1 › browser analysis matches the offline FFmpeg profile at sample times (4.8s)
+  ✓  7 e2e/smoke.spec.ts:81:1 › keyboard: skip link first, controls reachable (480ms)
+  ✓  8 e2e/smoke.spec.ts:98:3 › no horizontal overflow at mobile 360x800 (499ms)
+  ✓  9 e2e/smoke.spec.ts:98:3 › no horizontal overflow at tablet 768x1024 (538ms)
+  ✓  10 e2e/smoke.spec.ts:98:3 › no horizontal overflow at desktop 1440x900 (496ms)
+  ✓  11 e2e/smoke.spec.ts:107:1 › 200% zoom equivalent (720px CSS width) keeps controls usable (529ms)
+  ✓  12 e2e/smoke.spec.ts:115:1 › reduced-motion system preference is honored (340ms)
+  ✓  13 e2e/smoke.spec.ts:125:1 › video failure shows a readable error with recovery (371ms)
+  ✓  14 e2e/smoke.spec.ts:132:1 › slow network: loading state then ready (3.3s)
+AUDIO quiet median=0.0060 max=0.0064 | busy median=0.0340 max=0.0543
+  ✓  15 e2e/smoke.spec.ts:142:1 › audio output follows the NASA frames: near-silent without lightning, louder in dense activity (10.8s)
+  15 passed (47.1s)
