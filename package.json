@@ -1,0 +1,50 @@
+{
+  "name": "earthbeat",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "format": "prettier --write src scripts e2e",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "preview": "vite preview",
+    "profile": "tsx scripts/profile-video.ts",
+    "masks": "tsx scripts/mask-snapshots.ts",
+    "screenshots": "node scripts/screenshots.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@eslint/js": "^9.25.0",
+    "@playwright/test": "^1.53.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.20.3",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.30.1",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  },
+  "license": "Apache-2.0",
+  "description": "EarthBeat — accessible, deterministic sonification of a NASA Earth Information Center visualization (Lightning Events Detected from the ISS 2017–2023).",
+  "author": "Fernando Cardenas"
+}

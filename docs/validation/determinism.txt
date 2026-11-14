@@ -1,0 +1,4 @@
+Two independent decode+analysis passes of iss-lightning-web.mp4 at 10 samples/s
+Samples: pass A 2167, pass B 2167
+Max absolute difference across all smoothed features: 0
+Result: IDENTICAL

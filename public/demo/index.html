@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="EarthBeat project demo: seven slides. EarthBeat turns a NASA visualization of lightning seen from the International Space Station into explainable, accessible sound." />
+<meta name="author" content="Fernando Cardenas" />
+<meta name="earthbeat:assistance" content="Developed with SI-assisted tools for planning, code, debugging, testing and documentation under the creator's direction and review. Screenshots are captures of the running app; no SI-generated images." />
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<title>EarthBeat — Project Demo (7 slides)</title>
+<style>
+  :root { --bg:#070d1a; --panel:#11213d; --line:rgba(120,180,255,.25); --text:#eaf2ff; --text2:#b9c8e2; --cyan:#38d6f5; --yellow:#ffd43b; --coral:#ff8a7a; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html { scroll-snap-type: y mandatory; }
+  body { margin:0; background:#03060d; color:var(--text); font-family: system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif; }
+  .skip { position:absolute; left:1rem; top:-80px; background:var(--yellow); color:#1a1400; padding:.5rem 1rem; border-radius:8px; font-weight:700; z-index:9; }
+  .skip:focus { top:1rem; }
+  main { display:grid; gap:24px; padding:24px 0; }
+  .slide { scroll-snap-align:center; width:min(96vw, calc(94vh * 16 / 9)); aspect-ratio:16/9; margin:0 auto; position:relative; overflow:hidden;
+    background: radial-gradient(900px 500px at 90% -10%, rgba(59,130,246,.25), transparent 60%), var(--bg);
+    border:1px solid var(--line); border-radius:18px; container-type:inline-size; padding:4.2cqw 5cqw; display:flex; flex-direction:column; }
+  .slide:focus-visible { outline:3px solid var(--yellow); outline-offset:4px; }
+  .num { position:absolute; right:3cqw; bottom:2.4cqw; font-size:1.2cqw; color:var(--text2); }
+  .foot { position:absolute; left:5cqw; bottom:2.4cqw; font-size:1.15cqw; color:var(--text2); }
+  .eyebrow { color:var(--yellow); font-weight:700; font-size:1.5cqw; letter-spacing:.04em; margin:0 0 1cqw; }
+  h1 { font-size:6.4cqw; margin:0; letter-spacing:-.02em; line-height:1.05; }
+  h1 span { color:var(--yellow); }
+  h2 { font-size:3.5cqw; margin:0 0 1.8cqw; line-height:1.12; letter-spacing:-.01em; }
+  p, li { font-size:1.85cqw; line-height:1.45; color:var(--text2); margin:0 0 1cqw; }
+  strong { color:var(--text); }
+  ul { margin:0; padding-left:2cqw; }
+  .row { display:grid; grid-template-columns: 1fr 1.25fr; gap:3cqw; flex:1; min-height:0; align-items:center; }
+  .row.even { grid-template-columns: 1fr 1fr; }
+  figure { margin:0; min-height:0; }
+  figure img { width:100%; height:auto; max-height:38cqw; object-fit:cover; object-position:top; border-radius:1.2cqw; border:1px solid var(--line); display:block; }
+  figcaption { font-size:1.15cqw; color:var(--text2); margin-top:.6cqw; }
+  .tag { display:inline-block; font-size:1.3cqw; font-weight:700; border:1px solid var(--cyan); color:var(--cyan); border-radius:.6cqw; padding:.2cqw .7cqw; margin-right:.6cqw; }
+  .pipe { list-style:none; padding:0; display:grid; grid-template-columns:repeat(5,1fr); gap:1.2cqw; margin:0 0 2.2cqw; }
+  .pipe li { background:var(--panel); border:1px solid var(--line); border-radius:1cqw; padding:1.2cqw; font-size:1.45cqw; color:var(--text); margin:0; position:relative; }
+  .pipe li b { display:block; color:var(--yellow); font-size:1.25cqw; margin-bottom:.3cqw; }
+  .pipe li:not(:last-child)::after { content:'→'; position:absolute; right:-1.1cqw; top:40%; color:var(--yellow); font-size:1.6cqw; }
+  table { border-collapse:collapse; width:100%; }
+  th, td { text-align:left; font-size:1.6cqw; padding:.7cqw 1cqw; border-bottom:1px solid var(--line); }
+  th { color:var(--cyan); }
+  td:first-child { color:var(--text); font-weight:600; }
+  .cards { display:grid; grid-template-columns:repeat(2,1fr); gap:1.4cqw; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:1.2cqw; padding:1.4cqw 1.6cqw; }
+  .card h3 { margin:0 0 .5cqw; font-size:1.9cqw; color:var(--text); }
+  .card p { margin:0; font-size:1.55cqw; }
+  .big { font-size:2.4cqw; color:var(--text); }
+  .links p { font-size:1.75cqw; }
+  .links a { color:var(--cyan); }
+  .orbit { position:absolute; right:-8cqw; top:-6cqw; width:46cqw; aspect-ratio:1; border-radius:50%; border:1px solid var(--line); opacity:.7; }
+  .orbit::after { content:''; position:absolute; inset:12%; border-radius:50%; border:1px dashed rgba(56,214,245,.35); }
+  nav.pager { position:fixed; right:16px; bottom:16px; display:flex; gap:8px; z-index:5; }
+  nav.pager button { font:inherit; font-weight:700; background:var(--panel); color:var(--text); border:1px solid var(--cyan); border-radius:999px; padding:.5rem .9rem; min-height:44px; cursor:pointer; }
+  nav.pager button:focus-visible { outline:3px solid var(--yellow); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-snap-type:none; } }
+  @media print {
+    @page { size: 1600px 900px; margin: 0; }
+    html { scroll-snap-type:none; }
+    body { background:var(--bg); }
+    main { padding:0; gap:0; }
+    .slide { width:1600px; height:900px; border-radius:0; border:0; break-after:page; page-break-after:always; }
+    nav.pager, .skip { display:none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#s1">Skip to slides</a>
+<main aria-label="EarthBeat project demo, 7 slides">
+
+<section class="slide" id="s1" tabindex="-1" aria-labelledby="t1">
+  <div class="orbit" aria-hidden="true"></div>
+  <div class="row">
+    <div>
+      <p class="eyebrow">The Earth Information Jukebox · 2026 NASA Space Apps Challenge</p>
+      <h1 id="t1">Earth<span>Beat</span></h1>
+      <p class="big" style="margin-top:1.4cqw">Hear our changing planet.</p>
+      <p style="margin-top:2.4cqw"><strong>Fernando Cardenas</strong> · Team EarthBeat · Universal Event</p>
+    </div>
+    <figure>
+      <img src="img/01-hero-desktop.jpg" alt="EarthBeat home page: the headline Earth data should not be seen only, a Start listening button, and an original illustration of a globe with orbit rings and a yellow sound wave." />
+      <figcaption>EarthBeat home page (original design).</figcaption>
+    </figure>
+  </div>
+  <p class="num">1 / 7</p>
+</section>
+
+<section class="slide" id="s2" tabindex="-1" aria-labelledby="t2">
+  <p class="eyebrow">The access gap</p>
+  <h2 id="t2">NASA Earth data is rich — and almost entirely visual.</h2>
+  <div class="row even">
+    <ul>
+      <li>The Earth Information Center shares our changing planet as animated maps and globes.</li>
+      <li>People who are blind or have low vision cannot see those patterns; many learners understand better by listening.</li>
+      <li>A soundtrack added to a video does not help: the sound has to <strong>carry the data</strong> and <strong>explain itself</strong>.</li>
+    </ul>
+    <div class="card">
+      <h3>EarthBeat's answer</h3>
+      <p>Measure each NASA frame while it plays, turn the measurements into sound the same way every time, and say in words what each sound means.</p>
+    </div>
+  </div>
+  <p class="num">2 / 7</p>
+</section>
+
+<section class="slide" id="s3" tabindex="-1" aria-labelledby="t3">
+  <p class="eyebrow">The experience</p>
+  <h2 id="t3">Start · hear · explore · understand</h2>
+  <div class="row">
+    <ul>
+      <li><strong>Start:</strong> one button; sound begins only when you press it.</li>
+      <li><strong>Hear:</strong> NASA's lightning globe plays in sync with sound generated from its frames.</li>
+      <li><strong>Explore:</strong> seek, slow down to 0.5×, jump to guided moments, switch sound layers on and off.</li>
+      <li><strong>Understand:</strong> a live legend and a spoken-style summary explain what is happening.</li>
+    </ul>
+    <figure>
+      <img src="img/room.jpg" alt="Listening room at 1:38: dense activity in the upper part of the frame, coverage 82 percent, pitch high, with play, restart, stop sound, speed and volume controls." />
+      <figcaption>One clock — the NASA video — drives analysis, sound and text.</figcaption>
+    </figure>
+  </div>
+  <p class="num">3 / 7</p>
+</section>
+
+<section class="slide" id="s4" tabindex="-1" aria-labelledby="t4">
+  <p class="eyebrow">From NASA frames to sound</p>
+  <h2 id="t4">A deterministic, documented translation</h2>
+  <ol class="pipe" aria-label="Pipeline">
+    <li><b>1</b>NASA video frames</li>
+    <li><b>2</b>Sample 10 per second of video at 160×90</li>
+    <li><b>3</b>Detect yellow lightning points; mask the date corner</li>
+    <li><b>4</b>Normalized features 0–1</li>
+    <li><b>5</b>Sound + live text</li>
+  </ol>
+  <table>
+    <thead><tr><th scope="col">In the frame</th><th scope="col">You hear</th></tr></thead>
+    <tbody>
+      <tr><td>Left ↔ right position</td><td>Stereo position</td></tr>
+      <tr><td>Height in the frame</td><td>Pitch (pentatonic, 220–880 Hz)</td></tr>
+      <tr><td>Share of frame covered</td><td>Pulse speed and background level</td></tr>
+      <tr><td>Color strength</td><td>Loudness (safety-limited)</td></tr>
+      <tr><td>Change between frames</td><td>Soft ticks</td></tr>
+    </tbody>
+  </table>
+  <p class="num">4 / 7</p>
+</section>
+
+<section class="slide" id="s5" tabindex="-1" aria-labelledby="t5">
+  <p class="eyebrow">Accessibility by design</p>
+  <h2 id="t5">Fully usable without seeing it — or without hearing it</h2>
+  <div class="row">
+    <div class="cards">
+      <div class="card"><h3>Keyboard</h3><p>Native controls, skip link, Esc stops sound anywhere.</p></div>
+      <div class="card"><h3>Screen readers</h3><p>Landmarks, described video, polite summary every ~4 s, announced states.</p></div>
+      <div class="card"><h3>Vision &amp; motion</h3><p>High contrast, strong focus outlines, reduced motion, phone layouts.</p></div>
+      <div class="card"><h3>Comfortable sound</h3><p>No autoplay, gentle mode, limiter, no sub-bass, Stop sound.</p></div>
+    </div>
+    <figure>
+      <img src="img/room-hc.jpg" alt="EarthBeat in high-contrast mode: black background with white outlines and text around the NASA globe and controls." />
+      <figcaption>High-contrast mode. Without sound, the text and live values carry every mapping.</figcaption>
+    </figure>
+  </div>
+  <p class="num">5 / 7</p>
+</section>
+
+<section class="slide" id="s6" tabindex="-1" aria-labelledby="t6">
+  <p class="eyebrow">Validity and NASA data</p>
+  <h2 id="t6">Real NASA data, measured and tested</h2>
+  <div class="row even">
+    <ul>
+      <li><strong>Data:</strong> <em>Lightning Events Detected from the ISS 2017–2023</em> (NASA SVS 5011), Lightning Imaging Sensor, ten-day roving window.</li>
+      <li><strong>Finding:</strong> pitch follows the seasons — activity sits higher in the frame in every northern summer checked (≥ 0.57) than in every northern winter (≤ 0.51).</li>
+      <li><strong>Tests:</strong> 36 unit/component + 13 browser tests pass; two full analysis runs identical; 0 automated accessibility violations.</li>
+      <li><strong>Limits:</strong> sonifies the rendered picture, not raw event counts; not a warning tool.</li>
+    </ul>
+    <figure>
+      <img src="img/mask-100s.jpg" alt="Validation image: an analyzed NASA frame at 1:40 beside the detector output, where yellow marks detected lightning pixels and a cyan cross marks the activity centroid." />
+      <figcaption>Left: analyzed frame (NASA SVS). Right: what EarthBeat detects.</figcaption>
+    </figure>
+  </div>
+  <p class="num">6 / 7</p>
+</section>
+
+<section class="slide" id="s7" tabindex="-1" aria-labelledby="t7">
+  <div class="orbit" aria-hidden="true"></div>
+  <p class="eyebrow">Impact and future</p>
+  <h2 id="t7">Many more NASA visualizations, heard by more people</h2>
+  <div class="row even">
+    <ul>
+      <li><strong>Classrooms:</strong> teachers of blind and low-vision students can explore Earth data alongside sighted peers.</li>
+      <li><strong>Museums and public displays:</strong> an audio layer for Earth Information Center content.</li>
+      <li><strong>Next:</strong> co-design and testing with blind and low-vision users; more EIC visualizations through the same engine.</li>
+    </ul>
+    <div class="links">
+      <p><span class="tag">Try it</span><a href="https://fernandojcardenas.github.io/earthbeat/">fernandojcardenas.github.io/earthbeat</a></p>
+      <p><span class="tag">Code</span><a href="https://github.com/fernandojcardenas/earthbeat">github.com/fernandojcardenas/earthbeat</a></p>
+      <p style="margin-top:2cqw">Visualization credit: NASA's Scientific Visualization Studio; data: ISS Lightning Imaging Sensor (Blakeslee, 2020, NASA GHRC DAAC).</p>
+      <p>Independent project, not endorsed by NASA. Built with SI-assisted development tools under the creator's direction.</p>
+    </div>
+  </div>
+  <p class="num">7 / 7</p>
+</section>
+
+</main>
+<nav class="pager" aria-label="Slide navigation">
+  <button type="button" id="prev">Previous slide</button>
+  <button type="button" id="next">Next slide</button>
+</nav>
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    function current() {
+      var mid = window.innerHeight / 2, best = 0, d = Infinity;
+      slides.forEach(function (s, i) { var r = s.getBoundingClientRect(); var dd = Math.abs(r.top + r.height / 2 - mid); if (dd < d) { d = dd; best = i; } });
+      return best;
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      slides[i].focus({ preventScroll: true });
+    }
+    document.getElementById('prev').addEventListener('click', function () { go(current() - 1); });
+    document.getElementById('next').addEventListener('click', function () { go(current() + 1); });
+    document.addEventListener('keydown', function (e) {
+      if (e.target && /INPUT|TEXTAREA|BUTTON/.test(e.target.tagName)) return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(current() + 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current() - 1); }
+    });
+  })();
+</script>
+</body>
+</html>
