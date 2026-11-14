@@ -33,6 +33,7 @@ export const MASTER_CEILING = 0.7;
 export class AudioEngine {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
+  private analyser: AnalyserNode | null = null;
   private toneFilter: BiquadFilterNode | null = null;
   private bus: BiquadFilterNode | null = null;
   private bedGain: GainNode | null = null;
@@ -59,6 +60,16 @@ export class AudioEngine {
 
   get masterGainValue(): number {
     return this.master?.gain.value ?? 0;
+  }
+
+  /** Root-mean-square level of the output over the last ~43 ms (0 when silent or inactive). */
+  outputLevel(): number {
+    if (!this.analyser) return 0;
+    const buf = new Float32Array(this.analyser.fftSize);
+    this.analyser.getFloatTimeDomainData(buf);
+    let sum = 0;
+    for (const v of buf) sum += v * v;
+    return Math.sqrt(sum / buf.length);
   }
 
   /** Must be called from a user gesture. Resolves false if audio cannot start. */
@@ -91,6 +102,13 @@ export class AudioEngine {
     limiter.connect(master);
     master.connect(ctx.destination);
     this.master = master;
+    // Output meter (read only by the ?debug view and browser tests); not connected to the destination.
+    if (typeof ctx.createAnalyser === 'function') {
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 2048;
+      master.connect(analyser);
+      this.analyser = analyser;
+    }
 
     const toneFilter = ctx.createBiquadFilter();
     toneFilter.type = 'lowpass';
@@ -274,6 +292,7 @@ export class AudioEngine {
     const ctx = this.ctx;
     this.ctx = null;
     this.master = null;
+    this.analyser = null;
     this.toneFilter = null;
     this.bus = null;
     this.bedGain = null;

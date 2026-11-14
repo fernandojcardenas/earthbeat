@@ -139,7 +139,8 @@ In the browser, frames are sampled when the video presents them, so sample times
 
    Every summer reading (min 0.57, mean 0.65) is above every winter reading (max 0.51, mean 0.42), so the melody rises in northern summers and falls in northern winters. This is consistent with the seasonal patterns NASA says the visualization shows. **Caveat:** height is a position in the rendered picture; camera framing, tilt and globe rotation also affect it. It is an observation about the visualization, not a new geophysical measurement. The app computes the same table live from `profile.json`.
 
-5. **Automated tests:** 36 unit/component tests and 11 browser smoke tests (see the test report).
+5. **Sound follows the data (measured output).** With `?debug`, the page exposes the RMS level of the master output. In Chrome on the production build, playing 0:02–0:06 (no lightning-colored pixels) gave a median output RMS of 0.0061 (soft bed only), while 1:34–1:38 (dense northern-summer activity) gave a median of 0.0305 and a peak of 0.0473 — five times louder, and far below full scale (1.0).
+6. **Automated tests:** 36 unit/component tests and 15 browser tests (see the test report).
 
 ## 7. Interpretive choices
 

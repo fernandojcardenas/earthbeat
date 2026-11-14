@@ -138,3 +138,27 @@ test('slow network: loading state then ready', async ({ page }) => {
   await expect(page.locator('.status-pill')).toContainText('Loading');
   await waitReady(page);
 });
+
+test('audio output follows the NASA frames: near-silent without lightning, louder in dense activity', async ({ page }) => {
+  await page.goto('./?debug');
+  await waitReady(page);
+  const level = async (from: number, secs: number) => {
+    await page.locator('input[type=range][aria-valuetext]').first().fill(String(from));
+    await page.getByRole('button', { name: 'Play', exact: true }).click();
+    await expect(page.locator('.status-pill')).toHaveText(/Playing with sound/, { timeout: 15_000 });
+    const samples: number[] = [];
+    for (let i = 0; i < secs * 5; i++) {
+      await page.waitForTimeout(200);
+      samples.push(await page.evaluate(() => (window as unknown as { earthbeatOutputLevel: () => number }).earthbeatOutputLevel()));
+    }
+    await page.getByRole('button', { name: 'Pause' }).click();
+    samples.sort((a, b) => a - b);
+    return { median: samples[Math.floor(samples.length / 2)], max: samples[samples.length - 1] };
+  };
+  const quiet = await level(2, 4); // 0:02–0:06: no lightning-colored pixels in the frames
+  const busy = await level(94, 4); // 1:34–1:38: dense activity (northern summer 2017)
+  console.log(`AUDIO quiet median=${quiet.median.toFixed(4)} max=${quiet.max.toFixed(4)} | busy median=${busy.median.toFixed(4)} max=${busy.max.toFixed(4)}`);
+  expect(busy.max).toBeGreaterThan(0.01);
+  expect(busy.median).toBeGreaterThan(quiet.median * 3);
+  expect(busy.max).toBeLessThan(0.9); // never near full scale
+});

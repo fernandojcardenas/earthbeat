@@ -86,7 +86,7 @@ npm run profile    # re-run the analysis over the whole video (needs FFmpeg)
 ## Testing
 
 - 36 unit and component tests (Vitest, Testing Library) covering bounds, determinism, monotonic mappings, rate/gain/voice caps, smoothing, mute/stop cleanup, accessible names and preferences.
-- 11 browser smoke tests on the production build (Playwright with Chrome): first load, play/pause/seek/stop cycles without console errors, browser-vs-offline analysis parity, keyboard path, layouts at 360/768/1440 px and 200% zoom, reduced motion, video failure, slow network.
+- 15 browser tests on the production build (Playwright with Google Chrome): first load, play/pause/seek/stop cycles without console errors, browser-vs-offline analysis parity, measured audio output following the data, keyboard path, layouts at 360/768/1440 px and 200% zoom, reduced motion, video failure, slow network, the seven-slide deck, and axe-core accessibility scans in both themes.
 
 Results with dates are recorded in the project's test report.
 

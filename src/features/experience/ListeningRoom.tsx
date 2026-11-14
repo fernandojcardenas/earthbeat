@@ -230,6 +230,16 @@ export function ListeningRoom({ startSignal }: { startSignal: number }) {
     return () => document.removeEventListener('visibilitychange', onVis);
   }, [announce, pause]);
 
+  // Debug view only: expose the output meter for inspection and automated checks.
+  useEffect(() => {
+    if (!debug) return;
+    const w = window as unknown as { earthbeatOutputLevel?: () => number };
+    w.earthbeatOutputLevel = () => engineRef.current?.outputLevel() ?? 0;
+    return () => {
+      delete w.earthbeatOutputLevel;
+    };
+  }, [debug]);
+
   useEffect(() => {
     engineRef.current?.setVolume(volume);
   }, [volume]);
